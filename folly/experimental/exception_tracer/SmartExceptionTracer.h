@@ -22,6 +22,8 @@
 namespace folly {
 namespace exception_tracer {
 
+#if FOLLY_HAVE_ELF && FOLLY_HAVE_DWARF
+
 ExceptionInfo getTrace(const std::exception_ptr& ex);
 
 ExceptionInfo getTrace(const std::exception& ex);

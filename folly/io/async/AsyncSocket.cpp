@@ -40,7 +40,9 @@
 #include <folly/portability/Unistd.h>
 
 #if defined(__linux__)
+#ifndef FOLLY_MUSL
 #include <linux/if_packet.h>
+#endif
 #include <linux/sockios.h>
 #include <sys/ioctl.h>
 #endif

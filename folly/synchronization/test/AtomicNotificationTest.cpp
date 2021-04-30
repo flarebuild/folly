@@ -40,7 +40,7 @@ void run_atomic_wait_basic() {
   }};
 
   atomic.store(1);
-  atomic_notify_one(&atomic);
+  atomic_notify_one_f(&atomic);
 
   one.join();
 }
@@ -62,7 +62,7 @@ void run_atomic_notify_all() {
   auto&& t1 = std::thread{func};
 
   atomic.store(1);
-  atomic_notify_all(&atomic);
+  atomic_notify_all_f(&atomic);
 
   t0.join();
   t1.join();
@@ -114,7 +114,7 @@ void run_atomic_wait_until_with_notification() {
   }};
 
   atomic.store(1);
-  atomic_notify_one(&atomic);
+  atomic_notify_one_f(&atomic);
   one.join();
 }
 
@@ -176,7 +176,7 @@ void run_atomic_aliasing() {
   }};
 
   while (!two.try_wait()) {
-    atomic_notify_one(atomic.get_pointer());
+    atomic_notify_one_f(atomic.get_pointer());
   }
 
   threadTwo.join();

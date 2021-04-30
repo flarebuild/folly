@@ -226,7 +226,7 @@ SSL_CTX* OpenSSLUtils::getSSLInitialCtx(SSL* ssl) {
 
 BioMethodUniquePtr OpenSSLUtils::newSocketBioMethod() {
   BIO_METHOD* newmeth = nullptr;
-#if FOLLY_OPENSSL_IS_110
+#if FOLLY_OPENSSL_IS_110 && !defined(OPENSSL_IS_BORINGSSL)
   if (!(newmeth = BIO_meth_new(BIO_TYPE_SOCKET, "socket_bio_method"))) {
     return nullptr;
   }
@@ -274,7 +274,9 @@ int OpenSSLUtils::getBioShouldRetryWrite(int r) {
 }
 
 void OpenSSLUtils::setBioAppData(BIO* b, void* ptr) {
-#ifdef OPENSSL_IS_BORINGSSL
+#if defined(OPENSSL_IS_BORINGSSL) && FOLLY_OPENSSL_IS_110
+  BIO_set_data(b, ptr);
+#elif defined(OPENSSL_IS_BORINGSSL) && !FOLLY_OPENSSL_IS_110
   BIO_set_callback_arg(b, static_cast<char*>(ptr));
 #else
   BIO_set_app_data(b, ptr);
@@ -282,7 +284,9 @@ void OpenSSLUtils::setBioAppData(BIO* b, void* ptr) {
 }
 
 void* OpenSSLUtils::getBioAppData(BIO* b) {
-#ifdef OPENSSL_IS_BORINGSSL
+#if defined(OPENSSL_IS_BORINGSSL) && FOLLY_OPENSSL_IS_110
+  return BIO_get_data(b);
+#elif defined(OPENSSL_IS_BORINGSSL) && !FOLLY_OPENSSL_IS_110
   return BIO_get_callback_arg(b);
 #else
   return BIO_get_app_data(b);

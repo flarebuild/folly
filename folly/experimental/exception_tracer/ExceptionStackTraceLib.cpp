@@ -107,10 +107,12 @@ struct Initializer {
     registerRethrowExceptionCallback(
         [](std::exception_ptr) noexcept { addActiveException(); });
 
+  #if FOLLY_HAVE_ELF && FOLLY_HAVE_DWARF
     try {
       ::folly::exception_tracer::installHandlers();
     } catch (...) {
     }
+#endif
   }
 };
 

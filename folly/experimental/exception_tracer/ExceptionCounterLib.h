@@ -24,6 +24,8 @@
 namespace folly {
 namespace exception_tracer {
 
+#if FOLLY_HAVE_ELF && FOLLY_HAVE_DWARF
+
 struct ExceptionStats {
   uint64_t count;
   ExceptionInfo info;
@@ -38,6 +40,8 @@ struct ExceptionStats {
 std::vector<ExceptionStats> getExceptionStatistics();
 
 std::ostream& operator<<(std::ostream& out, const ExceptionStats& stats);
+
+#endif
 
 } // namespace exception_tracer
 } // namespace folly

@@ -114,7 +114,7 @@ struct mmsghdr {
 #include <sys/socket.h>
 #include <sys/un.h>
 
-#ifdef MSG_ERRQUEUE
+#if defined(MSG_ERRQUEUE) && !defined(FOLLY_MUSL) 
 #define FOLLY_HAVE_MSG_ERRQUEUE 1
 #ifndef FOLLY_HAVE_SO_TIMESTAMPING
 #define FOLLY_HAVE_SO_TIMESTAMPING 1

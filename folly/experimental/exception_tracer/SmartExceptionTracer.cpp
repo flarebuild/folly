@@ -25,6 +25,9 @@
 
 namespace folly {
 namespace exception_tracer {
+
+#if FOLLY_HAVE_ELF && FOLLY_HAVE_DWARF
+
 namespace {
 
 struct ExceptionMeta {
@@ -179,6 +182,8 @@ ExceptionInfo getAsyncTrace(const exception_wrapper& ew) {
 ExceptionInfo getAsyncTrace(const std::exception& ex) {
   return getTraceWithFunc(ex, getAsyncStackTraceItPair);
 }
+
+#endif
 
 } // namespace exception_tracer
 } // namespace folly

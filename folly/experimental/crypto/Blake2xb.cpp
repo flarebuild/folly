@@ -18,6 +18,7 @@
 
 #include <folly/experimental/crypto/Blake2xb.h>
 #include <folly/lang/Bits.h>
+#include <folly/folly-config.h>
 
 namespace folly {
 namespace crypto {

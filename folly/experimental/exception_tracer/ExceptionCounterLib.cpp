@@ -33,6 +33,8 @@ using namespace folly::exception_tracer;
 
 namespace {
 
+#if FOLLY_HAVE_ELF && FOLLY_HAVE_DWARF
+
 // We use the hash of stack trace and exception type to uniquely
 // identify the exception.
 using ExceptionId = uint64_t;
@@ -138,5 +140,7 @@ struct Initializer {
 };
 
 Initializer initializer;
+
+#endif
 
 } // namespace

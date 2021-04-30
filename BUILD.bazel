@@ -1,0 +1,70 @@
+cc_library(
+    name = "folly",
+    hdrs = glob([
+        "folly/**/*.h",
+    ], exclude = [
+        "folly/experimental/io/**",
+        "folly/experimental/exception_tracer/**",
+        "folly/python/**",
+        "folly/tools/**",
+        "**/test/**",
+        "**/example/**",
+    ]) + [
+        "folly/experimental/io/FsUtil.h",
+    ] + select({
+        "@bazel_tools//src/conditions:darwin": [],
+        "//conditions:default": [
+            "folly/experimental/io/HugePages.h",
+        ],
+    }),
+    srcs = glob([
+        "folly/**/*.cpp",
+    ], exclude = [
+        "folly/experimental/JSONSchemaTester.cpp",
+        "folly/experimental/io/**",
+        "folly/experimental/exception_tracer/**",
+        "folly/python/**",
+        "folly/tools/**",
+        "**/test/**",
+        "**/example/**",
+    ])+ [
+        "folly/experimental/io/FsUtil.cpp",
+    ] + select({
+        "@bazel_tools//src/conditions:darwin": [],
+        "//conditions:default": [
+            "folly/experimental/io/HugePages.cpp",
+        ],
+    }),
+    copts = [ 
+        "-std=c++2a",
+        "-Wno-ambiguous-reversed-operator",
+    ],
+    includes = [
+        "."
+    ],
+    deps = [
+        "@com_github_fmtlib_fmt//:fmt",
+        "@net_zlib//:zlib",
+        "@com_github_google_glog//:glog",
+        "@com_github_google_double_conversion//:double-conversion",
+        "@com_github_gflags_gflags//:gflags",
+        "@com_github_jedisct1_sodium//:sodium",
+        "@org_libevent//:libevent",
+        "@org_boost//:config",
+        "@org_boost//:operators",
+        "@org_boost//:crc",
+        "@org_boost//:multi_index",
+        "@org_boost//:intrusive",
+        "@org_boost//:variant",
+        "@org_boost//:detail",
+        "@org_boost//:context",
+        "@org_boost//:algorithm",
+        "@org_boost//:container",
+        "@org_boost//:filesystem",
+        "@org_boost//:program_options",
+        "@org_boost//:preprocessor",
+        "@org_boost//:function_types",
+        "@com_github_facebook_zstd//:zstd",
+    ],
+    visibility = ["//visibility:public"],
+)

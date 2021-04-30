@@ -42,7 +42,7 @@ int getExDataIndex() {
  * Configure the given SSL context to use the given version.
  */
 void configureProtocolVersion(SSL_CTX* ctx, SSLContext::SSLVersion version) {
-#if FOLLY_OPENSSL_PREREQ(1, 1, 0)
+#if FOLLY_OPENSSL_IS_110
   // Disable TLS 1.3 by default, for now, if this version of OpenSSL
   // supports it. There are some semantic differences (e.g. assumptions
   // on getSession() returning a resumable session, SSL_CTX_set_ciphersuites,
